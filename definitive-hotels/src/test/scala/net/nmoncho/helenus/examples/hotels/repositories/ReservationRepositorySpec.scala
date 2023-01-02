@@ -26,6 +26,7 @@ class ReservationRepositorySpec extends AnyWordSpec with Matchers with Cassandra
         Reservations.abc123.hotelId,
         Reservations.abc123.startDate
       ) shouldBe Set(Reservations.abc123)
+
       repository.findReservationByHotelAndDate(
         Reservations.mno345.hotelId,
         Reservations.mno345.startDate
