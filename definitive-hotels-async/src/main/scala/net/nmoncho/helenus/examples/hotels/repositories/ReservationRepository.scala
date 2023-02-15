@@ -1,6 +1,5 @@
 package net.nmoncho.helenus.examples.hotels.repositories
 
-import net.nmoncho.helenus.CqlSessionExtension
 import java.time.LocalDate
 import net.nmoncho.helenus.examples.hotels.models.Reservation
 import java.util.UUID
@@ -8,8 +7,9 @@ import net.nmoncho.helenus.examples.hotels.models.Guest
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt
+import com.datastax.oss.driver.api.core.CqlSession
 
-class ReservationRepository()(implicit session: CqlSessionExtension, ec: ExecutionContext) {
+class ReservationRepository()(implicit session: CqlSession, ec: ExecutionContext) {
   import net.nmoncho.helenus._
 
   private val queries = new ReservationRepository.Queries()
@@ -18,7 +18,7 @@ class ReservationRepository()(implicit session: CqlSessionExtension, ec: Executi
   def findReservationByConfirmation(confirmationNumber: String): Future[Option[Reservation]] =
     // This mixes both async and sync API, if you desire to do so
     queries.reservationByConfirmation
-      .map(_.execute(confirmationNumber).headOption)
+      .map(_.execute(confirmationNumber).nextOption)
 
   // Q7. Find reservations by hotel and date
   def findReservationByHotelAndDate(
@@ -46,7 +46,7 @@ class ReservationRepository()(implicit session: CqlSessionExtension, ec: Executi
 
 object ReservationRepository {
 
-  class Queries()(implicit session: CqlSessionExtension, ec: ExecutionContext) {
+  class Queries()(implicit session: CqlSession, ec: ExecutionContext) {
     import net.nmoncho.helenus._
 
     final val reservationByConfirmation =

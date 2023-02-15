@@ -1,10 +1,10 @@
 package net.nmoncho.helenus.examples.hotels
 
+import com.datastax.oss.driver.api.core.CqlSession
 import net.nmoncho.helenus.examples.hotels.models.PointOfInterest
 import net.nmoncho.helenus.examples.hotels.models.Hotel
 import net.nmoncho.helenus.examples.hotels.models.Address
 import net.nmoncho.helenus.examples.hotels.models.Amenity
-import net.nmoncho.helenus.CqlSessionExtension
 import java.time.LocalDate
 import scala.util.Random
 
@@ -13,7 +13,7 @@ object HotelsTestData {
 
   private val rnd = new Random(0)
 
-  def insertTestData()(implicit session: CqlSessionExtension): Unit = {
+  def insertTestData()(implicit session: CqlSession): Unit = {
     val insertHotelByPOI =
       """INSERT INTO hotels_by_poi(poi_name, hotel_id, name, phone, address)
         |VALUES (?, ?, ?, ?, ?)""".stripMargin.toCQL

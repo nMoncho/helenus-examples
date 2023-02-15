@@ -21,5 +21,5 @@ object Reservation {
   implicit val columnScheme: ColumnNamingScheme = SnakeCase
 
   implicit val rowMapper: RowMapper[Reservation] =
-    RowMapper.NamedRowMapper[Reservation]("confirmationNumber" -> "confirm_number")
+    RowMapper.renamed[Reservation](_.confirmationNumber -> "confirm_number")
 }

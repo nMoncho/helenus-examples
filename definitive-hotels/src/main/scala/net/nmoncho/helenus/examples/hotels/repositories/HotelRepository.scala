@@ -1,13 +1,13 @@
 package net.nmoncho.helenus.examples.hotels.repositories
 
+import com.datastax.oss.driver.api.core.CqlSession
 import net.nmoncho.helenus.examples.hotels.models.Hotel
-import net.nmoncho.helenus.CqlSessionExtension
 import net.nmoncho.helenus.examples.hotels.models.Amenity
 import net.nmoncho.helenus.examples.hotels.models.Address
 import net.nmoncho.helenus.examples.hotels.models.PointOfInterest
 import java.time.LocalDate
 
-class HotelRepository()(implicit session: CqlSessionExtension) {
+class HotelRepository()(implicit session: CqlSession) {
   import net.nmoncho.helenus._
 
   private val queries = new HotelRepository.Queries()
@@ -23,7 +23,7 @@ class HotelRepository()(implicit session: CqlSessionExtension) {
 
   // Q2. Find information about a hotel
   def findById(id: String): Option[Hotel] =
-    queries.byId.execute(id).headOption
+    queries.byId.execute(id).nextOption
 
   // Q3. Find pois near a hotel
   def findPOIsByHotel(id: String): Seq[PointOfInterest] =
@@ -46,7 +46,7 @@ object HotelRepository {
   type HotelId    = String
   type RoomNumber = Short
 
-  class Queries()(implicit session: CqlSessionExtension) {
+  class Queries()(implicit session: CqlSession) {
     import net.nmoncho.helenus._
 
     final val byPoi =
