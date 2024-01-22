@@ -17,7 +17,7 @@ class HotelRepository()(implicit session: CqlSession) {
     queries.byPoi
       .execute(poiName)
       .to(List)
-      .map { case (id, name, phone, address) =>
+      .map { case (id, name, phone, addres`s) =>
         Hotel.byPoi(id, name, phone, address)
       }
 
