@@ -1,7 +1,7 @@
 import sbt._
 
 object Dependencies {
-  lazy val helenus       = "net.nmoncho"      %% "helenus-core"     % "0.9.0"
+  lazy val helenus       = "net.nmoncho"      %% "helenus-core"     % "0.10.0"
   lazy val dseJavaDriver = "com.datastax.oss"  % "java-driver-core" % "4.15.0"
   lazy val cassandraUnit = "org.cassandraunit" % "cassandra-unit"   % "4.3.1.0"
   lazy val scalaTest     = "org.scalatest"    %% "scalatest"        % "3.2.15"
