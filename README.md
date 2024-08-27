@@ -1,4 +1,4 @@
-# helenus-examples
+# Helenus Examples
 Example Projects using Helenus and Cassandra
 
 ## Definitive Hotels
