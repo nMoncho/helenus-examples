@@ -1,7 +1,6 @@
 package net.nmoncho.helenus.examples.hotels.repositories
 
 import net.nmoncho.helenus.examples.hotels.models.Hotel
-import net.nmoncho.helenus.CqlSessionExtension
 import net.nmoncho.helenus.examples.hotels.models.Amenity
 import net.nmoncho.helenus.examples.hotels.models.Address
 import net.nmoncho.helenus.examples.hotels.models.PointOfInterest
@@ -9,9 +8,10 @@ import java.time.LocalDate
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
+import com.datastax.oss.driver.api.core.CqlSession
 import com.datastax.oss.driver.api.core.MappedAsyncPagingIterable
 
-class HotelRepository()(implicit session: CqlSessionExtension) {
+class HotelRepository()(implicit session: CqlSession) {
   import net.nmoncho.helenus._
 
   private val pageFetchTimeout = 5.seconds
@@ -68,7 +68,7 @@ object HotelRepository {
   type HotelId    = String
   type RoomNumber = Short
 
-  class Queries()(implicit session: CqlSessionExtension) {
+  class Queries()(implicit session: CqlSession) {
     import net.nmoncho.helenus._
 
     final val byPoi =

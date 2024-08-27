@@ -1,5 +1,6 @@
 package net.nmoncho.helenus.examples.hotels.repositories
 
+import com.datastax.oss.driver.api.core.CqlSession
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 import net.nmoncho.helenus.examples.hotels.ReservationsTestData._
@@ -7,7 +8,7 @@ import net.nmoncho.helenus.examples.hotels.ReservationsTestData._
 class ReservationRepositorySpec extends AnyWordSpec with Matchers with CassandraSpec {
   import net.nmoncho.helenus._
 
-  implicit lazy val cqlSession: CqlSessionExtension = session.toScala
+  implicit lazy val cqlSession: CqlSession = session
 
   "ReservationRepository" should {
     "find a reservation by confirmation number" in {

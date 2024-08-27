@@ -1,19 +1,19 @@
 package net.nmoncho.helenus.examples.hotels.repositories
 
-import net.nmoncho.helenus.CqlSessionExtension
-import java.time.LocalDate
-import net.nmoncho.helenus.examples.hotels.models.Reservation
-import java.util.UUID
+import com.datastax.oss.driver.api.core.CqlSession
 import net.nmoncho.helenus.examples.hotels.models.Guest
+import net.nmoncho.helenus.examples.hotels.models.Reservation
+import java.time.LocalDate
+import java.util.UUID
 
-class ReservationRepository()(implicit session: CqlSessionExtension) {
+class ReservationRepository()(implicit session: CqlSession) {
   import net.nmoncho.helenus._
 
   private val queries = new ReservationRepository.Queries()
 
   // Q6. Find reservation by confirmation number
   def findReservationByConfirmation(confirmationNumber: String): Option[Reservation] =
-    queries.reservationByConfirmation.execute(confirmationNumber).headOption
+    queries.reservationByConfirmation.execute(confirmationNumber).nextOption
 
   // Q7. Find reservations by hotel and date
   def findReservationByHotelAndDate(hotelId: String, startDate: LocalDate): Set[Reservation] =
@@ -25,13 +25,13 @@ class ReservationRepository()(implicit session: CqlSessionExtension) {
 
   // Q9. Find guest by ID
   def findGuestById(guestId: UUID): Option[Guest] =
-    queries.guestById.execute(guestId).headOption
+    queries.guestById.execute(guestId).nextOption
 
 }
 
 object ReservationRepository {
 
-  class Queries()(implicit session: CqlSessionExtension) {
+  class Queries()(implicit session: CqlSession) {
     import net.nmoncho.helenus._
 
     final val reservationByConfirmation =

@@ -1,16 +1,16 @@
 package net.nmoncho.helenus.examples.hotels
 
+import com.datastax.oss.driver.api.core.CqlSession
 import net.nmoncho.helenus.examples.hotels.models.Guest
-import java.util.UUID
 import net.nmoncho.helenus.examples.hotels.models.Address
 import net.nmoncho.helenus.examples.hotels.models.Reservation
 import java.time.LocalDate
-import net.nmoncho.helenus.CqlSessionExtension
+import java.util.UUID
 
 object ReservationsTestData {
   import net.nmoncho.helenus._
 
-  def insertTestData()(implicit session: CqlSessionExtension): Unit = {
+  def insertTestData()(implicit session: CqlSession): Unit = {
     val insertReservationByHotelDate =
       """INSERT INTO reservations_by_hotel_date(hotel_id, start_date, end_date, room_number, confirm_number, guest_id)
         |VALUES(?, ?, ?, ?, ?, ?)""".stripMargin.toCQL
