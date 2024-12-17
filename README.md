@@ -17,3 +17,7 @@ You can see this project [here](definitive-hotels-akka).
 ## Definitive Hotels Pekko
 The same as the [Definitive Hotels](#definitive-hotels) but using [Apache Pekko](https://pekko.apache.org/).
 You can see this project [here](definitive-hotels-pekko).
+
+## Definitive Hotels ZIO
+The same as the [Definitive Hotels](#definitive-hotels) but using [ZIO](https://zio.dev/).
+You can see this project [here](definitive-hotels-zio).
