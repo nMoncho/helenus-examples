@@ -7,11 +7,11 @@ import scala.concurrent.Future
 package object repositories {
   import net.nmoncho.helenus._
 
-  def fetchPage[T](prev: Iterator[T], page: MappedAsyncPagingIterable[T])(
+  def fetchAllPages[T](prev: Iterator[T], page: MappedAsyncPagingIterable[T])(
       implicit ec: ExecutionContext
   ): Future[Iterator[T]] =
-    page.nextPage.flatMap { next =>
-      if (page.hasMorePages()) fetchPage(prev.concat(next), page)
-      else Future.successful(prev.concat(next))
+    page.nextPage.flatMap {
+      case Some((next, nextPage)) => fetchAllPages(prev.concat(next), nextPage)
+      case None => Future.successful(prev)
     }
 }

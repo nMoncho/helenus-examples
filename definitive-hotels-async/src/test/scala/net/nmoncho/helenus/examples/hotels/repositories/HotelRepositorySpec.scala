@@ -65,7 +65,7 @@ class HotelRepositorySpec extends AnyWordSpec with Matchers with CassandraSpec w
 
       val result = whenReady(repository.roomAmenities(HotelsTestData.Hotels.h1.id, 1)) { result =>
         result.currPage should not be empty
-        
+
         result
       }
 

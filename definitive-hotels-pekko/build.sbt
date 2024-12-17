@@ -7,7 +7,7 @@ ThisBuild / organizationName := "nmoncho"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "helenus-example-definitive-hotels-async",
+    name := "helenus-example-definitive-hotels-pekko",
     libraryDependencies ++= Seq(
       helenus,
       helenusPekko,

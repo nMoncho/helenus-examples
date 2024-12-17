@@ -1,14 +1,14 @@
 package net.nmoncho.helenus.examples.hotels.repositories
 
-import net.nmoncho.helenus.examples.hotels.models.{Guest, Reservation}
+import net.nmoncho.helenus.examples.hotels.models.{ Guest, Reservation }
 import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream.alpakka.cassandra.scaladsl.CassandraSession
-import akka.stream.scaladsl.{Sink, Source}
+import akka.stream.scaladsl.{ Sink, Source }
 
 import java.time.LocalDate
 import java.util.UUID
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 
 class ReservationRepository()(implicit system: ActorSystem, session: CassandraSession) {
 

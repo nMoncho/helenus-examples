@@ -8,7 +8,7 @@ import net.nmoncho.helenus.examples.hotels.models.Address
 import net.nmoncho.helenus.examples.hotels.models.Amenity
 
 import java.time.LocalDate
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 import scala.util.Random
 
 object HotelsTestData {
@@ -74,7 +74,6 @@ object HotelsTestData {
         // even room are available on even days of the month
         date.getDayOfMonth() % 2 == room % 2
       )(cqlSession)
-
 
       val amentiesSize = Amenities.all.size
       val amenities    = Amenities.all.toVector

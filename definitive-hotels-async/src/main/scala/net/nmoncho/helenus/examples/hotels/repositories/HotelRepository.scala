@@ -41,7 +41,7 @@ class HotelRepository()(implicit session: CqlSession) {
   def findPOIsByHotel(id: String)(implicit ec: ExecutionContext): Future[Seq[PointOfInterest]] =
     // Unlike Q1, this is fully asynchronous, but all still pages are fetched in one go
     queries.poiByHotel.executeAsync(id).flatMap { asyncPage =>
-      fetchPage(asyncPage.currPage, asyncPage).map(_.toList)
+      fetchAllPages(asyncPage.currPage, asyncPage).map(_.toList)
     }
 
   // Q4. Find available rooms by hotel / date
@@ -49,7 +49,7 @@ class HotelRepository()(implicit session: CqlSession) {
       implicit ec: ExecutionContext
   ): Future[Set[HotelRepository.RoomNumber]] =
     queries.availableRoomsByHotel.executeAsync(id, date).flatMap { asyncPage =>
-      fetchPage(asyncPage.currPage, asyncPage).map(_.collect {
+      fetchAllPages(asyncPage.currPage, asyncPage).map(_.collect {
         case (roomNumber, isAvailable) if isAvailable =>
           roomNumber
       }.toSet)

@@ -33,7 +33,7 @@ class ReservationRepository()(implicit session: CqlSession, ec: ExecutionContext
   def findReservationByGuestName(lastName: String): Future[Set[Reservation]] = for {
     q <- queries.reservationByGuestName
     result <- q.executeAsync(lastName)
-    reservations <- fetchPage(result.currPage, result)
+    reservations <- fetchAllPages(result.currPage, result)
   } yield reservations.toSet
 
   // Q9. Find guest by ID
