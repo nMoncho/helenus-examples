@@ -4,6 +4,7 @@ import com.datastax.oss.driver.api.core.cql._
 import com.datastax.oss.driver.api.core.{
   ConsistencyLevel,
   CqlSession,
+  DriverTimeoutException,
   MappedAsyncPagingIterable,
   PagingIterable
 }
@@ -59,18 +60,18 @@ class ZLazyCqlSession(hostname: String, port: Int) extends ZCqlSession {
         val body       = src.getLines().mkString("\n")
         val statements = body.split(";")
 
-        statements.foreach(executeDDL)
+        statements.foreach(executeDDL(_))
         Thread.sleep(100) // FIXME
       }
 
-    def executeDDL(ddl: String): ResultSet =
+    def executeDDL(ddl: String, retries: Int = 40): ResultSet =
       try {
         session.execute(SimpleStatement.newInstance(ddl).setConsistencyLevel(ConsistencyLevel.ALL))
       } catch {
-        case ex =>
+        case ex: DriverTimeoutException if retries > 0 =>
           ex.printStackTrace()
           Thread.sleep(50)
-          executeDDL(ddl)
+          executeDDL(ddl, retries - 1)
       }
 
     def withSession(fn: CqlSession => Unit): Unit =

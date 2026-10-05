@@ -13,5 +13,5 @@ final case class Address(
 object Address {
   import net.nmoncho.helenus._
 
-  implicit val typeCodec: TypeCodec[Address] = Codec.udtOf[Address]()
+  implicit val typeCodec: TypeCodec[Address] = Codec.of[Address]()
 }
