@@ -10,6 +10,7 @@ lazy val root = (project in file("."))
     name := "helenus-example-definitive-hotels-sync",
     libraryDependencies ++= Seq(
       helenus,
+      helenusTables,
       ossJavaDriver,
       cassandraUnit % Test,
       scalaTest     % Test,
