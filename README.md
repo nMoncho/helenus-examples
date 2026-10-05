@@ -21,3 +21,8 @@ You can see this project [here](definitive-hotels-pekko).
 ## Definitive Hotels ZIO
 The same as the [Definitive Hotels](#definitive-hotels) but using [ZIO](https://zio.dev/).
 You can see this project [here](definitive-hotels-zio).
+
+## Definitive Hotels Tables
+The same as the [Definitive Hotels](#definitive-hotels) but using the type-safe
+`helenus-tables` Table DSL instead of raw CQL strings.
+You can see this project [here](definitive-hotels-tables).
