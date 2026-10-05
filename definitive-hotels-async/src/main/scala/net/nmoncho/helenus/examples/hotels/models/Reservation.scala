@@ -2,9 +2,6 @@ package net.nmoncho.helenus.examples.hotels.models
 
 import java.util.UUID
 import java.time.LocalDate
-import net.nmoncho.helenus.api.RowMapper
-import net.nmoncho.helenus.api.ColumnNamingScheme
-import net.nmoncho.helenus.api.SnakeCase
 
 final case class Reservation(
     confirmationNumber: String,
@@ -18,8 +15,8 @@ final case class Reservation(
 object Reservation {
   import net.nmoncho.helenus._
 
-  implicit val columnScheme: ColumnNamingScheme = SnakeCase
+  implicit val columnScheme: ColumnNamingScheme = ColumnNamingScheme.SnakeCase
 
   implicit val rowMapper: RowMapper[Reservation] =
-    RowMapper.renamed[Reservation](_.confirmationNumber -> "confirm_number")
+    RowMapper[Reservation](_.confirmationNumber -> "confirm_number")
 }
