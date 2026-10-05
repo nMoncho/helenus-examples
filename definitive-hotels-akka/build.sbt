@@ -8,6 +8,10 @@ ThisBuild / organizationName := "nmoncho"
 lazy val root = (project in file("."))
   .settings(
     name := "helenus-example-definitive-hotels-akka",
+    // Suites share the embedded Cassandra admin session (EmbeddedCassandraServerHelper.getSession),
+    // whose keyspace is switched per-suite via `USE`. Running suites in parallel races on that shared
+    // session, so DDL can land in the wrong keyspace. Keep suite execution sequential.
+    Test / parallelExecution := false,
     libraryDependencies ++= Seq(
       helenus,
       helenusAkka,

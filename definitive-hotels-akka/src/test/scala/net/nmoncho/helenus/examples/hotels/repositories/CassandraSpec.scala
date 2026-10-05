@@ -3,6 +3,7 @@ package net.nmoncho.helenus.examples.hotels.repositories
 import akka.actor.ActorSystem
 import akka.stream.alpakka.cassandra.CassandraSessionSettings
 import akka.stream.alpakka.cassandra.scaladsl.{ CassandraSession, CassandraSessionRegistry }
+import com.datastax.oss.driver.api.core.DriverTimeoutException
 import com.datastax.oss.driver.api.core.`type`.codec.TypeCodec
 import com.datastax.oss.driver.api.core.`type`.codec.registry.MutableCodecRegistry
 import com.datastax.oss.driver.api.core.cql.{ ResultSet, Statement }
@@ -21,7 +22,7 @@ trait CassandraSpec extends BeforeAndAfterAll with BeforeAndAfterEach { this: Su
 
   def startTimeout: Long = EmbeddedCassandraServerHelper.DEFAULT_STARTUP_TIMEOUT * 3
 
-  protected lazy val keyspace: String = "tests"
+  protected lazy val keyspace: String = randomIdentifier("tests")
 
   protected lazy val contactPoint: String =
     s"${EmbeddedCassandraServerHelper.getHost}:${EmbeddedCassandraServerHelper.getNativeTransportPort}"
@@ -77,16 +78,19 @@ trait CassandraSpec extends BeforeAndAfterAll with BeforeAndAfterEach { this: Su
   def execute(query: String): ResultSet =
     session.execute(query)
 
-  /** Executes a DDL statement until success.
+  /** Executes a DDL statement, retrying on transient driver timeouts.
     *
-    * This is a workaround for the exception `DriverTimeoutException: Query timed out after PT2S`
+    * This is a workaround for the exception `DriverTimeoutException: Query timed out after PT2S`.
+    * Retries are bounded so a statement that fails permanently (or an unresponsive Cassandra)
+    * surfaces the error instead of blocking the suite forever.
     */
-  def executeDDL(ddl: String): Unit = try {
+  def executeDDL(ddl: String, retries: Int = 40): Unit = try {
     session.execute(ddl)
+    ()
   } catch {
-    case _: Throwable =>
+    case _: DriverTimeoutException if retries > 0 =>
       Thread.sleep(50)
-      executeDDL(ddl)
+      executeDDL(ddl, retries - 1)
   }
 
   def execute(stmt: Statement[_]): ResultSet =
@@ -97,7 +101,7 @@ trait CassandraSpec extends BeforeAndAfterAll with BeforeAndAfterEach { this: Su
       val body       = src.getLines().mkString("\n")
       val statements = body.split(";")
 
-      statements.foreach(executeDDL)
+      statements.foreach(executeDDL(_))
     }
 
   def registerCodec[T](codec: TypeCodec[T]): Unit =
