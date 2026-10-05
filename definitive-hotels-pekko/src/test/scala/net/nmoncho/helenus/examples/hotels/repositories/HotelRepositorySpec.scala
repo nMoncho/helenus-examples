@@ -66,8 +66,8 @@ class HotelRepositorySpec
         january1st should not be empty
 
         withClue("only odd room numbers are available on oodd days") {
-          january1st(11.toShort) shouldBe true
-          january1st(12.toShort) shouldBe false
+          january1st should contain(11.toShort)
+          january1st should not contain 12.toShort
         }
       }
     }
