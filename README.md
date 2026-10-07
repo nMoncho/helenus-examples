@@ -26,3 +26,8 @@ You can see this project [here](definitive-hotels-zio).
 The same as the [Definitive Hotels](#definitive-hotels) but using the type-safe
 `helenus-tables` Table DSL instead of raw CQL strings.
 You can see this project [here](definitive-hotels-tables).
+
+## Definitive Hotels Spark
+The same as the [Definitive Hotels](#definitive-hotels) but reading from and writing to
+Cassandra with [Apache Spark](https://spark.apache.org/) via the `helenus-spark` module.
+You can see this project [here](definitive-hotels-spark).
